@@ -76,17 +76,18 @@ listed below.
 |System Locality Information Table (SLIT)      |5.2.17     |Required if the
                                                             platform supports 
                                                             NUMA
-|IOMMU Information Table                       |           |IOMMU table 
-                                                            (like IVRS)
+|Boot Error Record Table (BERT)                |18.3.1    | RAS APEI
+|Error Injection Table (EINJ)                  |18.6.1    | RAS APEI
+|Error Record Serialization Table (ERST)       |18.5      | RAS APEI
+|Hardware Error Source Table (HEST)            |18.3.2    | RAS APEI
 |Software Delegated Exception Interface (SDEI) |See Links to ACPI-Related 
                                                 Documents (http://uefi.org/acpi)
                                                 under the heading 
                                                 "Software Delegated Exceptions
                                                 Interface”       |
-|PMU event mapping table                       |          |
 |===
 
-== ACPI Device Onjects and Methods
+== ACPI Device Objects and Methods
 
 .Required Device Objects and Methods
 [cols="1,2,3", width=95%, align="center", options="header"]
