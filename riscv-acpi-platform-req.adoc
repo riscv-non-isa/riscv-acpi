@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: CC-BY-4.0
 
-= RISC-V ACPI Platform Specification
+= RISC-V ACPI Platform Requirements Specification
 :author: RISC-V Platform Specification Task Group
 :email: tech-unixplatformspec@lists.riscv.org
 :revnumber: 0.1
@@ -13,8 +13,6 @@ toc::[]
 
 [preface]
 == Copyright and license information
-
-This RISC-V ACPI platform specification is
 
 [%hardbreaks]
 (C) 2021 Sunil V L <sunilvl@ventanamicro.com>
@@ -30,10 +28,11 @@ https://creativecommons.org/licenses/by/4.0/.
 * Initial version
 
 == Introduction
-
-This specification describes the required ACPI tables and objects for RISC-V
-server platforms. All other ACPI tables not mentioned in this specification can
-be implemented as needed adhering to the ACPI specifications.
+RISC-V server class platforms need to support Advanced Configuration and Power
+Interface (ACPI) as the hardware discovery and configuration mechanism. This
+document describes the mandatory ACPI tables and objects for RISC-V server
+platforms. All other ACPI tables not mentioned in this document can be
+implemented as needed adhering to the ACPI specification.
 
 == ACPI Namespace
 In ACPI namespace, processors are required to be defined under the System Bus
@@ -80,11 +79,6 @@ listed below.
 |Error Injection Table (EINJ)                  |18.6.1    | RAS APEI
 |Error Record Serialization Table (ERST)       |18.5      | RAS APEI
 |Hardware Error Source Table (HEST)            |18.3.2    | RAS APEI
-|Software Delegated Exception Interface (SDEI) |See Links to ACPI-Related 
-                                                Documents (http://uefi.org/acpi)
-                                                under the heading 
-                                                "Software Delegated Exceptions
-                                                Interface”       |
 |===
 
 == ACPI Device Objects and Methods
