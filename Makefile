@@ -4,7 +4,7 @@
 
 ASCIIDOCTOR = asciidoctor
 DITAA = ditaa
-RISCV_ACPI_SPEC = riscv-acpi-platform-spec
+RISCV_ACPI_SPEC = riscv-acpi-platform-req
 PANDOC = pandoc
 
 # Build the platform spec in several formats
