@@ -1,3 +1,5 @@
+#*DRAFT FOR REVIEW*#
+
 === RISCV Timer Description Table (RTDT)
 
 This section describes the format of the RISCV Timer Description Table(RTDT), which provides OSPM with information about RISC-V timer device. In future versions of this table, it can be used for communicating other details of the timer and watchdog devices.
