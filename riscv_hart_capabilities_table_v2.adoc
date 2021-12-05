@@ -1,20 +1,25 @@
 [.text-center]
-*RISC-V Extension Description Table (REDT)*
+*RISC-V Hart Capabilities Table (RHCT)*
 
 [.text-center]
 #*_DRAFT FOR REVIEW_*#
 
-RISC-V supports optional features known as extensions. Different hardware implementations can support different extensions. The Operating System will need to know what extensions are supported in the platform. Along with extensions, there can be some features that are not having any extensions like AIA CSRs implemented, MMU type, etc. These are also part of this table since they can not be discovered by the Operating System in any way.
+RISC-V supports many optional features. Different hardware implementations can
+support different features. The Operating System will need to know what features
+are implemented in the RISC-V Processor a.k.a Hart.
 
-This table provides information about all the extensions supported.
+This table provides information about the features implemented in the Hart.
+There will be only one table in the system which describes all the harts.
 
-.RISC-V Extension Description Table (REDT)
+.RISC-V Hart Capabilities Table (RHCT)
 |===
 |*Field*|*Byte Length*|*Byte Offset*|*Description*
 
-|- Signature|4|0|REDT signature for the RISCV Extension Description Table
-|- Length|4|4|The length of the table, in bytes, of the entire REDT
-|- Revision|1|8|The revision of the structure corresponding to the signature field for this table. For the REDT confirming this revision of the specification, the revision is 1.
+|- Signature|4|0|RHCT signature for the RISC-V Hart Capabilities Table
+|- Length|4|4|The length of the table, in bytes, of the entire RHCT
+|- Revision|1|8|The revision of the structure corresponding to the signature
+field for this table. For the RHCT confirming this revision of the
+specification, the revision is 2.
 |- Checksum|1|9|The entire table must sum to zero
 |- OEMID|6|10|
 |- OEM Table ID|8|16|
