@@ -1,36 +1,21 @@
-#
-#	Build usable docs
-#
+HEADER_SOURCE := header.adoc
+PDF_RESULT := RISCV_ACPI_PLATFORM-spec.pdf
 
-ASCIIDOCTOR = asciidoctor
-DITAA = ditaa
-RISCV_ACPI_SPEC = riscv-acpi-platform-req
-PANDOC = pandoc
+all: build
 
-# Build the platform spec in several formats
-all: $(RISCV_ACPI_SPEC).md $(RISCV_ACPI_SPEC).pdf $(RISCV_ACPI_SPEC).html
+build:
 
-$(RISCV_ACPI_SPEC).md: $(RISCV_ACPI_SPEC).xml
-	$(PANDOC) -f docbook -t markdown_strict $< -o $@ 
-
-$(RISCV_ACPI_SPEC).xml: $(RISCV_ACPI_SPEC).adoc
-	$(ASCIIDOCTOR) -d book -b docbook $<
-
-$(RISCV_ACPI_SPEC).pdf: $(RISCV_ACPI_SPEC).adoc
-	$(ASCIIDOCTOR) -d book -r asciidoctor-pdf -b pdf $<
-
-$(RISCV_ACPI_SPEC).html: $(RISCV_ACPI_SPEC).adoc
-	$(ASCIIDOCTOR) -d book -b html $<
+	@echo "Building asciidoc"
+	asciidoctor-pdf \
+    --attribute=mathematical-format=svg \
+    --attribute=pdf-fontsdir=docs-resources/fonts \
+    --attribute=pdf-style=docs-resources/themes/riscv-pdf.yml \
+    --failure-level=ERROR \
+    --require=asciidoctor-bibtex \
+    --require=asciidoctor-diagram \
+    --require=asciidoctor-mathematical \
+    --out-file=$(PDF_RESULT) \
+    $(HEADER_SOURCE)
 
 clean:
-	rm -f $(RISCV_ACPI_SPEC).xml
-	rm -f $(RISCV_ACPI_SPEC).md
-	rm -f $(RISCV_ACPI_SPEC).pdf
-	rm -f $(RISCV_ACPI_SPEC).html
-
-# handy shortcuts for installing necessary packages: YMMV
-install-debs:
-	sudo apt-get install pandoc asciidoctor ditaa ruby-asciidoctor-pdf
-
-install-rpms:
-	sudo dnf install ditaa pandoc rubygem-asciidoctor rubygem-asciidoctor-pdf
+	rm $(PDF_RESULT)
