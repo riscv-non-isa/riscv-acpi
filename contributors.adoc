@@ -1,0 +1,10 @@
+== Contributors
+
+This RISC-V specification has been contributed to directly or indirectly by:
+
+[%hardbreaks]
+* Sunil V L <sunilvl@ventanamicro.com>
+* Anup Patel <apatel@ventanamicro.com>
+* Atish Patra <atishp@atishpatra.org>
+* Kumar Sankaran <ksankaran@ventanamicro.com>
+* Jessica Clarke <jrtc27@jrtc27.com>

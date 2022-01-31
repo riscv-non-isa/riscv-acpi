@@ -1,0 +1,6 @@
+[bibliography]
+== References
+* https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf[ACPI
+Specification version 6.4]
+
+//bibliography::[]
