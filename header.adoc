@@ -38,7 +38,7 @@ endif::[]
 = RISC-V ACPI Platform Requirements Specification
 Sunil V L; RISC-V Platform HSC Group
 
-// Preable
+// Preamble
 [WARNING]
 .This document is in the link:http://riscv.org/spec-state[Development state]
 ====
