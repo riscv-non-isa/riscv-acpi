@@ -14,10 +14,11 @@ listed below.
 |Extended System Description Table (XSDT)      |5.2.8      |
 |Fixed ACPI Description Table (FADT)           |5.2.9      |
 |Differentiated System Description Table (DSDT)|5.2.11.1   |
-|Multiple APIC Description Table (MADT)        |5.2.12     |
+|Multiple APIC Description Table (MADT)        |5.2.12     |ACPI spec needs update to add
+AIA interrupt controller information.
 |RISC-V Hart Capabilities Table (RHCT)         |New        |To communicate
-information about hart capabilities like extensions supported etc.
-|RISC-V Timer Description Table (RTDT)         |New        |timebase-frequency
+information about certian capabilities like ISA string. This table should be added in the
+next version of the ACPI spec via ECR process.
 |Processor Properties Topology Table (PPTT)    |5.2.29     |CPU and Cache 
                                                             topology
                                                             information
