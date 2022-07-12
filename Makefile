@@ -1,5 +1,5 @@
 HEADER_SOURCE := header.adoc
-PDF_RESULT := RISCV_ACPI_PLATFORM-spec.pdf
+PDF_RESULT := RISCV_ACPI_GUIDANCE.pdf
 
 all: build
 
@@ -18,4 +18,4 @@ build:
     $(HEADER_SOURCE)
 
 clean:
-	rm $(PDF_RESULT)
+	rm -f $(PDF_RESULT)
