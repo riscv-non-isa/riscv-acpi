@@ -1,0 +1,86 @@
+== Introduction
+RISC-V server class platforms need to support Advanced Configuration and Power
+Interface (ACPI) as the hardware discovery and configuration mechanism. This
+document describes the mandatory ACPI tables and objects for RISC-V server
+platforms and hence acts as a starting point for firmware and OS developers to support
+ACPI on RISC-V. All other ACPI tables,devices and methods not mentioned in this document can be
+implemented as needed adhering to the ACPI specification.
+
+== Requirements
+. ACPI will be supported only on platforms with RV64 processors.
+. Since ACPI is targeted for server class platforms, the platforms need
+to have Message Signaled Interrupt (MSI) capabilities. This means ACPI is
+supported only on platforms with RISC-V Advanced Interrupt Architecture (AIA).
+To be specific, Incoming MSI Controller (IMSIC) and AIA CSRs are mandatory to support ACPI but the Advanced Platform Level Interrupt Controller (APLIC) is optional.
+. UEFI firmware is mandatory to support ACPI. The ACPI tables are passed to the
+Operating System via EFI_ACPI_20_TABLE_GUID in the UEFI firmware.
+. Legacy ACPI Fixed Hardware interfaces are not supported. It only supports Hardware-Reduced ACPI (ACPI section 4.1)
+
+
+== ACPI System Description Tables
+ACPI information is structured as tables with the address of the root of these
+tables known as Root System Description Table (RSDP) passed to the Operating
+System as defined by the UEFI specification. The Operating System uses this
+address to locate all other ACPI tables.
+
+The first table (Table 1) below defines a minimum set of information that should exist to atleast support
+basic booting of RISC-V system with ACPI support. The second table (Table 2) provides additional requirements
+based on the optional features that can be supported.
+
+.*Minimum required ACPI System Description Tables*
+[cols="3,2,2", width=95%, align="center", options="header"]
+|===
+|ACPI Table                                    |ACPI Section|Note
+|Root System Description Pointer (RSDP)        |5.2.5      | Should support 64bit tables which means XsdtAddress must be a valid 64bit address and RsdtAddress field should be NULL.
+|Extended System Description Table (XSDT)      |5.2.8      | This table will have pointers to other tables.
+|Fixed ACPI Description Table (FADT)           |5.2.9      | HW_REDUCED_ACPI flag must be set.
+|Differentiated System Description Table (DSDT)|5.2.11.1   | ACPI name space. Processors are required to be defined under the System Bus *(\_SB)* name space. Typically, the devices which can not be enumerated by any other standard ways, are part of ACPI name space. In addition, if the RISC-V platform supports APLIC, the APLIC device must be populated in the DSDT at appropriate hierarchy.
+
+link:https://docs.google.com/document/d/1NdLJNr7RVEA7776sV-_jp3tZGq92Y_itEXkWUd_2YdA/edit?usp=sharing[APLIC ECR (WIP)]
+|Multiple APIC Description Table (MADT)        |5.2.12     | This table provides information about the RISC-V AIA interrupt controllers. It is mandatory to have RINTC and IMSIC structures to be populated in the MADT. APLIC structures need to be populated only if the platform supports it.
+
+link:https://docs.google.com/document/d/1LBKD1gyi6kOfE3V2WiFOPz1h4MlmxHDj7vkjjfSygBo/edit?usp=sharing[RINTC ECR (WIP)]
+
+link:https://docs.google.com/document/d/1zDainvcxD14eawsyc3y1s78zP7ruefyGzcsP1bBak3w/edit?usp=sharing[IMSIC/APLIC ECR (WIP)]
+|RISC-V Hart Capabilities Table (RHCT)         |New        |To communicate
+information about certian capabilities like ISA string. This table should be added in the
+next version of the ACPI spec via ECR process.
+
+link:https://docs.google.com/document/d/1LlCefO_0GQ_7Tf3lzfMPETEfMlGo2FfLRJ09IMqJKEk/edit?usp=sharing[RHCT ECR (WIP)]
+|Processor Properties Topology Table (PPTT)    |5.2.29     |CPU and Cache 
+                                                            topology
+                                                            information
+|Memory-mapped Configuration space (MCFG)      |See Links to ACPI-Related 
+                                                Documents (http://uefi.org/acpi)
+                                                under the heading 
+                                                "PCI Sig”       |Required for PCIe
+                                                            support
+|===
+
+.*Additional ACPI System Description Tables based on feature support.*
+[cols="3,2,2", width=95%, align="center", options="header"]
+|===
+|ACPI Table                                    |ACPI Section|Note
+| Secondary System Description Table (SSDT)                                         | 5.2.11.2   | Only if additional definition blocks are needed.
+|Debug Port Table 2 (DBG2)                     |See Links to ACPI-Related 
+                                                Documents (http://uefi.org/acpi)
+                                                under the heading 
+                                                “Debug Port Table 2” |
+                                                Required to support Microsoft on RISC-V
+|Serial Port Console Redirection (SPCR)        |See Links to ACPI-Related 
+                                                Documents (http://uefi.org/acpi)
+                                                under the heading 
+                                                “Serial Port Console 
+                                                Redirection Table” |
+                                                Required to support Microsoft on RISC-V
+|System Resource Affinity Table (SRAT)         |5.2.16     |Required if the
+                                                            platform supports 
+                                                            NUMA
+|System Locality Information Table (SLIT)      |5.2.17     |Required if the
+                                                            platform supports 
+                                                            NUMA
+|Boot Error Record Table (BERT)                |18.3.1    | Required if ACPI RAS is supported
+|Error Injection Table (EINJ)                  |18.6.1    | Required if ACPI RAS is supported
+|Error Record Serialization Table (ERST)       |18.5      | Required if ACPI RAS is supported
+|Hardware Error Source Table (HEST)            |18.3.2    | Required if ACPI RAS is supported
+|===

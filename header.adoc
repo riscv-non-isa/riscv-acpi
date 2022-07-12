@@ -1,7 +1,7 @@
 [[header]]
-:description: RISC-V ACPI Specification
-:revdate: 1/27/2022
-:revnumber: 0.2
+:description: RISC-V ACPI Guidance Document
+:revdate: 07/12/2022
+:revnumber: 0.3
 :revremark: This document is in Development state.  Change should be expected.
 :company: RISC-V.org
 :url-riscv: http://riscv.org
@@ -35,7 +35,7 @@ endif::[]
 :footnote:
 :xrefstyle: short
 
-= RISC-V ACPI Platform Requirements Specification
+= RISC-V ACPI Guidance Document
 Sunil V L; RISC-V Platform HSC Group
 
 // Preamble
@@ -59,8 +59,8 @@ Copyright 2022 by RISC-V International.
 [preface]
 include::contributors.adoc[]
 
-include::intro.adoc[]
-include::riscv-acpi-platform-req.adoc[]
+include::revision.adoc[]
+include::riscv-acpi-guidance.adoc[]
 //the index must precede the bibliography
 //include::index.adoc[]
 include::bibliography.adoc[]
