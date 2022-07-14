@@ -1,0 +1,216 @@
+= RISC-V IO Mapping Table (RIMT)
+[.text-center]
+*RISC-V IO Mapping Table (RIMT)*
+
+[.text-center]
+#*_DRAFT FOR REVIEW_*#
+
+This is a proposal for an ACPI representation of the relationship between
+IO devices and RISC-V IOMMU.
+
+The RISC-V IOMMU specificaiton defines an IOMMU for RISC-V platforms
+which can be a regular platform device or a PCIe device connected to
+the host root port.
+
+The RISC-V IOMMU provides two stage translation, device directory table,
+command queue and fault reporting as wired interrupt or MSIx event for
+both PCIe and platform devices.
+
+The RISC-V IO Mapping Table (RIMT)  provides information about the RISC-V
+IOMMU and the relationship between the IO topology and the IOMMU.
+
+.RISC-V IO Mapping Table (RIMT)
+[cols="2,1,1,4", width=95%, align="center", options="header"]
+|===
+|*Field*|*Byte Length*|*Byte Offset*|*Description*
+
+|- Signature|4|0|'RIMT' signature for the RISC-V IO Mapping Table
+|- Length|4|4|The length of the table, in bytes, of the entire RIMT
+|- Revision|1|8|The revision of the structure corresponding to the signature
+field for this table. For the RIMT confirming this revision of the
+specification, the revision is 1.
+|- Checksum|1|9|The entire table must sum to zero
+|- OEMID|6|10| OEM ID
+|- OEM Table ID|8|16| For the RIMT, the table ID is the manufacturer model ID.
+|- OEM Revision|4|24| OEM revision of the RIMT for the supplied OEM Table ID.
+|- Creator ID|4|28| The vendor ID of the utility that created the table.
+|- Creator Revision|4|32| The revision of the utility that created the table.
+|- Number of RIMT devices|4|36| Number of nodes in RIMT device arrary
+|- Offset to RIMT device array|4|40| The offset from start of this table to the
+RIMT device array
+|- Reserved | 4 | 44| Must be zero
+|- RIMT device array |-|40|List of RIMT Devices. The list will contain all of
+the structures from RIMT Device Types needed to support this platform. These
+devices are defined in the following sections. See RIMT Device Structure
+Types Table (Table 2).
+|===
+
+.RIMT Device Structure Types
+|===
+|*Value*|*Description*
+|0| RISC-V IOMMU device structure. See Table 3
+|1| PCIe Root Complex device binding structure. See Table 5
+|2| Platform device binding structure. See Table 7
+|3-255| Reserved
+|===
+
+The IOMMU can be implemented as a regular platform device or as a device
+connected to PCIe Root Port. 
+
+.RISC-V IOMMU Device Structure
+[cols="2,1,1,4", width=95%, align="center", options="header"]
+|===
+|*Field*|*Byte Length*|*Byte Offset*|*Description*
+|Type | 1| 0| 0 -  RISC-V IOMMU device structure
+|Revision | 1| 1| 1 - Revision of this RISC-V IOMMU device structure
+|Length | 2| 2| The length of this structure (32 + 8 * N)
+|ID | 2| 4| Unique ID of this IOMMU
+|Model | 2 | 6| 0 - Generic RISC-V IOMMU
+
+All other values are reserved
+|IOMMU Base Address | 8 | 8| Base address where IOMMU registers are mapped. Valid only for memory
+mapped IOMMU. If IOMMU is a PCIe device, the BAR will be the mapped address of IOMMU registers.
+|Flags | 4 | 16
+a| 
+
+* Bit 0: IOMMU is a PCIe device
+** 1: The IOMMU is implemented as a PCIe device
+** 0: The IOMMU is implemented as a memory mapped  device
+
+* Bit 1: Proximity Domain valid
+** 1: The Proximity Domain field has a valid value. 
+** 0: The Proximity Domain field has no valid value. 
+
+* Bit [31-2]: Reserved, must be zero
+
+|PCIe Segment number| 2 | 20| Valid only if IOMMU is implemented as a PCI device
+|PCIe B/D/F | 2 | 22| Bus/Device/Function encoded if IOMMU is implemented as a PCI device.
+This field is valid only if the Flags field indicates it. Otherwise should be ignored.
+|Proximity Domain | 4 | 24 | The Proximity Domain to which this IOMMU belongs. This is valid
+only when the "Proximity Domain Valid" flag is set
+|Number of interrupt wires | 2 | 28| Number of interrupt wires
+This can be zero if MSI is supported.
+|Interrupt wire array offset | 2| 30| The offset from ths start of this device to the start
+of the interrupt wire array. A value of 0 represents only MSIs are supported.
+4+|List of interrupt wires.
+| Interrupt wire Array | 8 * N | - | Array of interrupt wire structures. See Table 4.
+|===
+
+.Interrupt Wire Structure
+[cols="2,1,1,4", width=95%, align="center", options="header"]
+|===
+|*Field*|*Byte Length*|*Byte Offset*|*Description*
+|Interrupt Number | 4 | 0| Interrupt wire number
+|Flags | 2 | 4
+a| 
+
+* Bit 0: Interrupt Mode
+** 0: Edge Triggerred.
+** 1: Level Triggerred.
+
+* Bit 1: Interrupt Polarity
+** 0: Active Low
+** 1: Active High
+
+* Bit [31-2]: Reserved, must be zero
+
+|APLIC ID| 2 | 6| Target APLIC. Should match with the APLIC ID in MADT and _MAT. 
+|===
+
+This table provides relationship between the PCIe Root Complex Devices and IOMMU.
+
+.PCIe Root Complex Device Binding Structure
+[cols="2,1,1,4", width=95%, align="center", options="header"]
+|===
+|*Field*|*Byte Length*|*Byte Offset*|*Description*
+|Type | 1| 0| 1 -  PCIe Root Complex device structure 
+|Revision | 1| 1| 1 - Revision of this structure
+|Length | 2| 2| The length of this structure (16 + 20 * N)
+|ID | 2| 4| Unique ID. It can be simply the array index in the RIMT devices array.
+|PCIe Segment number| 2 | 6| Should match with _SEG method and MCFG.
+| Flags | 4 | 8
+a| 
+
+* Bit 0: ATS support
+** 0: ATS is not supported in this root complex
+** 1: ATS supported in this root complex
+
+* Bit 1: PRI support
+** 0: PRI is not supported in this root complex
+** 1: PRI is supported in this root complex
+
+* Bit [31-2]: Reserved, must be zero
+
+|ID mapping array offset | 2| 12| The offset from ths start of this device to the start of
+the ID mapping array
+| Number of ID mappings | 2 | 14| Number of elements in the ID mapping array. The value
+in this field follows N-1 convention. For ex: If this field value is 0, it really means the
+array has 1 element. 
+4+|List of ID mappings
+| ID mapping array | 16 * N | - | Array of ID mapping structures. See ID Mapping Structure (Table 6).
+|===
+
+The ID mapping structure provides information on how devices are
+connected to an IOMMU.
+
+.ID Mapping Structure
+[cols="2,1,1,4", width=95%, align="center", options="header"]
+|===
+|*Field*|*Byte Length*|*Byte Offset*|*Description*
+|Source ID Base | 4| 0| Base Source ID
+|Destination Device ID Base | 4| 4| Base destination device ID
+|Number of IDs | 4| 8| Number of IDs. The vaue in this field follows N-1 convension.
+For ex: If this field has a value of 0, it really means Number of IDs=1.
+This should include the devices which would be
+enumerated later during OS boot (ex: SR-IOV Virtual Functions)
+|Destination IOMMU Offset | 4| 12| The destination IOMMU to which these mappings are done. 
+This field is the offset of the RISC-V IOMMU device to the start of the RIMT table. 
+|Flags | 4| 16
+a|
+
+* Bit 0: ATS Required
+** 0: ATS does not need to be enabled for the device to function.
+** 1: ATS needs to be enabled for the device to function.
+
+* Bit 1: PRI Required
+** 0: PRI does not need to be enabled for the device to function.
+** 1: PRI needs to be enabled for the device to function.
+
+* Bit 2: Is RCiEP
+** 0: Source is not RC integrated End Point Device (RCiEP)
+** 1: Source is RC integrated End Point (RCiEP)
+
+* Bit [31-3]: Reserved, must be zero
+|===
+
+There can be non-PCIe platform devices which are enumerated using Differentiated System Description Table(DSDT).
+These devices can have one or more source IDs in the mapping table. But they can have its own scheme
+to define the source IDs. Hence, those source IDs can be unique within the ACPI device only.
+
+.Platform Device Binding Structure
+[cols="2,1,1,4", width=95%, align="center", options="header"]
+|===
+|*Field*|*Byte Length*|*Byte Offset*|*Description*
+|Type | 1| 0| 2 -  Platform Device Structure 
+|Revision | 1| 1| 1 - Revision of this structure
+|Length | 2| 2| The length of this structure (12 + M + 20 * N)
+|ID | 2| 4| Unique ID of this device 
+|Reserved | 2 | 6| Must be zero
+|ID mapping array offset | 2| 8| The offset from ths start of this device to the start of
+the ID mapping array
+| Number of ID mappings | 2 | 10| Number of elements in the ID mapping array. The value
+in this field follows N-1 convention. For ex: If this field value is 0, it really means the
+array has 1 element. 
+| Name | M | 12| Null terminated ASCII string. Full path to the device object in the ACPI namespace.
+4+|List of ID mappings.
+| ID Mapping Array | 20 * N | - | Array of ID mapping. See ID mapping structure (Table 6).
+|===
+
+== References
+
+* link:https://github.com/riscv-non-isa/riscv-iommu/blob/main/riscv-iommu.pdf[RISC-V IOMMU Specification]
+* link:https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf[ACPI Specification], Version: v6.4
+
+== Examples
+
+image::iommu.png[]
