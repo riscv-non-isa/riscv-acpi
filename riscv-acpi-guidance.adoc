@@ -34,9 +34,7 @@ based on the optional features that can be supported.
 |Root System Description Pointer (RSDP)        |5.2.5      | Should support 64bit tables which means XsdtAddress must be a valid 64bit address and RsdtAddress field should be NULL.
 |Extended System Description Table (XSDT)      |5.2.8      | This table will have pointers to other tables.
 |Fixed ACPI Description Table (FADT)           |5.2.9      | HW_REDUCED_ACPI flag must be set.
-|Differentiated System Description Table (DSDT)|5.2.11.1   | ACPI name space. Processors are required to be defined under the System Bus *(\_SB)* name space. Typically, the devices which can not be enumerated by any other standard ways, are part of ACPI name space. In addition, if the RISC-V platform supports APLIC, the APLIC device must be populated in the DSDT at appropriate hierarchy.
-
-link:https://docs.google.com/document/d/1NdLJNr7RVEA7776sV-_jp3tZGq92Y_itEXkWUd_2YdA/edit?usp=sharing[APLIC ECR (WIP)]
+|Differentiated System Description Table (DSDT)|5.2.11.1   | ACPI name space. Processors are required to be defined under the System Bus *(\_SB)* name space. Typically, the devices which can not be enumerated by any other standard ways, are part of ACPI name space.
 |Multiple APIC Description Table (MADT)        |5.2.12     | This table provides information about the RISC-V AIA interrupt controllers. It is mandatory to have RINTC and IMSIC structures to be populated in the MADT. APLIC structures need to be populated only if the platform supports it.
 
 link:https://docs.google.com/document/d/1LBKD1gyi6kOfE3V2WiFOPz1h4MlmxHDj7vkjjfSygBo/edit?usp=sharing[RINTC ECR (WIP)]
