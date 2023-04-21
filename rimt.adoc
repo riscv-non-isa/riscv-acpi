@@ -39,7 +39,7 @@ specification, the revision is 1.
 |- Offset to RIMT device array|4|40| The offset from start of this table to the
 first device in RIMT device array.
 |- Reserved | 4 | 44| Must be zero.
-|- RIMT device array |-|40| List of RIMT Devices in the platform. Devices listed
+|- RIMT device array |-|48| List of RIMT Devices in the platform. Devices listed
 may be one of the types listed in RIMT Device Types (See Table 2). These structure
 for device types is defined in the following sections.
 |===
@@ -98,7 +98,7 @@ interrupt generation.
 |Interrupt wire array offset | 2| 30| The offset from the start of this device structure entry to the first
 entry of the Interrupt Wire Array. This field is valid only if "Number of interrupt wires" is not 0.
 4+|List of interrupt wires.
-| Interrupt wire Array | 8 * N | - | Array of Interrupt Wire Structures. See Table 4.
+| Interrupt wire Array | 8 * N | 32 | Array of Interrupt Wire Structures. See Table 4.
 |===
 
 .Interrupt Wire Structure
@@ -154,7 +154,7 @@ the ID mapping array.
 in this field follows N-1 convention. For example, if this fields value is 0, it means the
 array has 1 element. 
 4+|List of ID mappings
-| ID mapping array | 16 * N | - | Array of ID mapping structures. See ID Mapping Structure (Table 6).
+| ID mapping array | 16 * N | 16 | Array of ID mapping structures. See ID Mapping Structure (Table 6).
 |===
 
 The ID mapping structure provides information on how devices are
@@ -213,7 +213,7 @@ in this field follows N-1 convention. For ex: If this field value is 0, it reall
 array has 1 element. 
 | Name | M | 12| Null terminated ASCII string. Full path to the device object in the ACPI namespace.
 4+|List of ID mappings.
-| ID Mapping Array | 20 * N | - | Array of ID mapping. See ID mapping structure (Table 6).
+| ID Mapping Array | 20 * N | 12 + M | Array of ID mapping. See ID mapping structure (Table 6).
 |===
 
 == References
