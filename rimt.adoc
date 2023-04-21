@@ -24,22 +24,22 @@ IOMMU and the relationship between the IO topology and the IOMMU.
 |===
 |*Field*|*Byte Length*|*Byte Offset*|*Description*
 
-|- Signature|4|0|'RIMT' signature for the RISC-V IO Mapping Table
-|- Length|4|4|The length of the table, in bytes, of the entire RIMT
-|- Revision|1|8|The revision of the structure corresponding to the signature
+|Signature|4|0|'RIMT' signature for the RISC-V IO Mapping Table
+|Length|4|4|The length of the table, in bytes, of the entire RIMT
+|Revision|1|8|The revision of the structure corresponding to the signature
 field for this table. For the RIMT confirming to this revision of the
 specification, the revision is 1.
-|- Checksum|1|9|The entire table must sum to zero
-|- OEMID|6|10| OEM ID
-|- OEM Table ID|8|16| For the RIMT, the table ID is the manufacturer model ID.
-|- OEM Revision|4|24| OEM revision of the RIMT for the supplied OEM Table ID.
-|- Creator ID|4|28| The vendor ID of the utility that created the table.
-|- Creator Revision|4|32| The revision of the utility that created the table.
-|- Number of RIMT devices|4|36| Number of devices in the RIMT device array.
-|- Offset to RIMT device array|4|40| The offset from start of this table to the
+|Checksum|1|9|The entire table must sum to zero
+|OEMID|6|10| OEM ID
+|OEM Table ID|8|16| For the RIMT, the table ID is the manufacturer model ID.
+|OEM Revision|4|24| OEM revision of the RIMT for the supplied OEM Table ID.
+|Creator ID|4|28| The vendor ID of the utility that created the table.
+|Creator Revision|4|32| The revision of the utility that created the table.
+|Number of RIMT devices|4|36| Number of devices in the RIMT device array.
+|Offset to RIMT device array|4|40| The offset from start of this table to the
 first device in RIMT device array.
-|- Reserved | 4 | 44| Must be zero.
-|- RIMT device array |-|48| List of RIMT Devices in the platform. Devices listed
+|Reserved | 4 | 44| Must be zero.
+|RIMT device array |-|48| List of RIMT Devices in the platform. Devices listed
 may be one of the types listed in RIMT Device Types (See Table 2). These structure
 for device types is defined in the following sections.
 |===
