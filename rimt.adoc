@@ -150,9 +150,7 @@ a|
 
 |ID mapping array offset | 2| 12| The offset from the start of this device to the start of
 the ID mapping array.
-| Number of ID mappings | 2 | 14| Number of elements in the ID mapping array. The value
-in this field follows N-1 convention. For example, if this fields value is 0, it means the
-array has 1 element. 
+| Number of ID mappings | 2 | 14| Number of elements in the ID mapping array.
 4+|List of ID mappings
 | ID mapping array | 16 * N | 16 | Array of ID mapping structures. See ID Mapping Structure (Table 6).
 |===
@@ -170,9 +168,8 @@ will be used at the input to the IOMMU.
 |Source ID Base | 4| 0| The base of a range of source IDs mapped by this entry to a range of
                         device IDs that will be used at input to the IOMMU.
 |Destination Device ID Base | 4| 4| The base of the destination ID range as mapped by this entry.
-|Number of IDs | 4| 8| Number of IDs in the range. The value in this field follows N-1 convention.
-For example, if this field has a value of 0, it really means "Number of IDs" is 1. The range must
-include the IDs of devices that may be enumerated later during OS boot (For example, SR-IOV Virtual Functions)
+|Number of IDs | 4| 8| Number of IDs in the range. The range must include the IDs of devices that
+may be enumerated later during OS boot (For example, SR-IOV Virtual Functions).
 |Destination IOMMU Offset | 4| 12| The destination IOMMU with which the these IDs are associated. 
 This field is the offset of the RISC-V IOMMU device node to the start of the RIMT table. 
 |Flags | 4| 16
@@ -208,9 +205,7 @@ to define the source IDs. Hence, those source IDs can be unique within the ACPI 
 |Reserved | 2 | 6| Must be zero
 |ID mapping array offset | 2| 8| The offset from the start of this device to the start of
 the ID mapping array
-| Number of ID mappings | 2 | 10| Number of elements in the ID mapping array. The value
-in this field follows N-1 convention. For ex: If this field value is 0, it really means the
-array has 1 element. 
+| Number of ID mappings | 2 | 10| Number of elements in the ID mapping array.
 | Name | M | 12| Null terminated ASCII string. Full path to the device object in the ACPI namespace.
 4+|List of ID mappings.
 | ID Mapping Array | 20 * N | 12 + M | Array of ID mapping. See ID mapping structure (Table 6).
