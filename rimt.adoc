@@ -8,7 +8,7 @@
 This is a proposal for an ACPI representation of the relationship between
 IO devices and RISC-V IOMMU.
 
-The RISC-V IOMMU specificaiton defines an IOMMU for RISC-V platforms
+The RISC-V IOMMU specification defines an IOMMU for RISC-V platforms
 which can be a regular platform device or a PCIe device connected to
 the host root port.
 
@@ -24,22 +24,22 @@ IOMMU and the relationship between the IO topology and the IOMMU.
 |===
 |*Field*|*Byte Length*|*Byte Offset*|*Description*
 
-|- Signature|4|0|'RIMT' signature for the RISC-V IO Mapping Table
-|- Length|4|4|The length of the table, in bytes, of the entire RIMT
-|- Revision|1|8|The revision of the structure corresponding to the signature
+|Signature|4|0|'RIMT' signature for the RISC-V IO Mapping Table
+|Length|4|4|The length of the table, in bytes, of the entire RIMT
+|Revision|1|8|The revision of the structure corresponding to the signature
 field for this table. For the RIMT confirming to this revision of the
 specification, the revision is 1.
-|- Checksum|1|9|The entire table must sum to zero
-|- OEMID|6|10| OEM ID
-|- OEM Table ID|8|16| For the RIMT, the table ID is the manufacturer model ID.
-|- OEM Revision|4|24| OEM revision of the RIMT for the supplied OEM Table ID.
-|- Creator ID|4|28| The vendor ID of the utility that created the table.
-|- Creator Revision|4|32| The revision of the utility that created the table.
-|- Number of RIMT devices|4|36| Number of devices in the RIMT device array.
-|- Offset to RIMT device array|4|40| The offset from start of this table to the
+|Checksum|1|9|The entire table must sum to zero
+|OEMID|6|10| OEM ID
+|OEM Table ID|8|16| For the RIMT, the table ID is the manufacturer model ID.
+|OEM Revision|4|24| OEM revision of the RIMT for the supplied OEM Table ID.
+|Creator ID|4|28| The vendor ID of the utility that created the table.
+|Creator Revision|4|32| The revision of the utility that created the table.
+|Number of RIMT devices|4|36| Number of devices in the RIMT device array.
+|Offset to RIMT device array|4|40| The offset from start of this table to the
 first device in RIMT device array.
-|- Reserved | 4 | 44| Must be zero.
-|- RIMT device array |-|40| List of RIMT Devices in the platform. Devices listed
+|Reserved | 4 | 44| Must be zero.
+|RIMT device array |-|48| List of RIMT Devices in the platform. Devices listed
 may be one of the types listed in RIMT Device Types (See Table 2). These structure
 for device types is defined in the following sections.
 |===
@@ -95,10 +95,10 @@ structures used by the IOMMU may be located in memory from this proximity domain
 message signaled interrupts (MSI). When the IOMMU supports signaling interrupts using wires, this field
 provides the number of interrupt wires. This field must be 0 if the IOMMU does not support wire-based 
 interrupt generation.
-|Interrupt wire array offset | 2| 30| The offset from ths start of this device structure entry to the first
+|Interrupt wire array offset | 2| 30| The offset from the start of this device structure entry to the first
 entry of the Interrupt Wire Array. This field is valid only if "Number of interrupt wires" is not 0.
 4+|List of interrupt wires.
-| Interrupt wire Array | 8 * N | - | Array of Interrupt Wire Structures. See Table 4.
+| Interrupt wire Array | 8 * N | 32 | Array of Interrupt Wire Structures. See Table 4.
 |===
 
 .Interrupt Wire Structure
@@ -110,8 +110,8 @@ entry of the Interrupt Wire Array. This field is valid only if "Number of interr
 a| 
 
 * Bit 0: Interrupt Mode
-** 0: Edge Triggerred.
-** 1: Level Triggerred.
+** 0: Edge Triggered.
+** 1: Level Triggered.
 
 * Bit 1: Interrupt Polarity
 ** 0: Active Low.
@@ -148,13 +148,11 @@ a|
 
 * Bit [31-2]: Reserved, must be zero
 
-|ID mapping array offset | 2| 12| The offset from ths start of this device to the start of
+|ID mapping array offset | 2| 12| The offset from the start of this device to the start of
 the ID mapping array.
-| Number of ID mappings | 2 | 14| Number of elements in the ID mapping array. The value
-in this field follows N-1 convention. For example, if this fields value is 0, it means the
-array has 1 element. 
+| Number of ID mappings | 2 | 14| Number of elements in the ID mapping array.
 4+|List of ID mappings
-| ID mapping array | 16 * N | - | Array of ID mapping structures. See ID Mapping Structure (Table 6).
+| ID mapping array | 16 * N | 16 | Array of ID mapping structures. See ID Mapping Structure (Table 6).
 |===
 
 The ID mapping structure provides information on how devices are
@@ -170,9 +168,8 @@ will be used at the input to the IOMMU.
 |Source ID Base | 4| 0| The base of a range of source IDs mapped by this entry to a range of
                         device IDs that will be used at input to the IOMMU.
 |Destination Device ID Base | 4| 4| The base of the destination ID range as mapped by this entry.
-|Number of IDs | 4| 8| Number of IDs in the range. The vaue in this field follows N-1 convension.
-For example, if this field has a value of 0, it really means "Number of IDs" is 1. The range must
-include the IDs of devices that may be enumerated later during OS boot (For example, SR-IOV Virtual Functions)
+|Number of IDs | 4| 8| Number of IDs in the range. The range must include the IDs of devices that
+may be enumerated later during OS boot (For example, SR-IOV Virtual Functions).
 |Destination IOMMU Offset | 4| 12| The destination IOMMU with which the these IDs are associated. 
 This field is the offset of the RISC-V IOMMU device node to the start of the RIMT table. 
 |Flags | 4| 16
@@ -206,14 +203,12 @@ to define the source IDs. Hence, those source IDs can be unique within the ACPI 
 |Length | 2| 2| The length of this structure (12 + M + 20 * N)
 |ID | 2| 4| Unique ID of this device 
 |Reserved | 2 | 6| Must be zero
-|ID mapping array offset | 2| 8| The offset from ths start of this device to the start of
+|ID mapping array offset | 2| 8| The offset from the start of this device to the start of
 the ID mapping array
-| Number of ID mappings | 2 | 10| Number of elements in the ID mapping array. The value
-in this field follows N-1 convention. For ex: If this field value is 0, it really means the
-array has 1 element. 
+| Number of ID mappings | 2 | 10| Number of elements in the ID mapping array.
 | Name | M | 12| Null terminated ASCII string. Full path to the device object in the ACPI namespace.
 4+|List of ID mappings.
-| ID Mapping Array | 20 * N | - | Array of ID mapping. See ID mapping structure (Table 6).
+| ID Mapping Array | 20 * N | 12 + M | Array of ID mapping. See ID mapping structure (Table 6).
 |===
 
 == References
