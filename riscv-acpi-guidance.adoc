@@ -12,7 +12,7 @@ implemented as needed adhering to the ACPI specification.
 to have Message Signaled Interrupt (MSI) capabilities. This means ACPI is
 supported only on platforms with RISC-V Advanced Interrupt Architecture (AIA).
 To be specific, Incoming MSI Controller (IMSIC) and AIA CSRs are mandatory to support ACPI but the Advanced Platform Level Interrupt Controller (APLIC) is optional.
-. UEFI firmware is mandatory to support ACPI. The ACPI tables are passed to the
+. UEFI firmware is optional to support ACPI. The ACPI tables are passed to the
 Operating System via EFI_ACPI_20_TABLE_GUID in the UEFI firmware.
 . Legacy ACPI Fixed Hardware interfaces are not supported. It only supports Hardware-Reduced ACPI (ACPI section 4.1)
 
