@@ -1,6 +1,7 @@
 == Contributors
 
-This RISC-V specification has been contributed to directly or indirectly by (in alphabetical order):
-Aaron Durbin, Anup Patel, Atish Patra, Bill Meng, Furquan Shaikh, Heinrich Schuchardt, Jessica Clarke, Kumar Shankaran, Stephano Cetola, and Sunil V L.
+This RISC-V specification has been contributed to directly or indirectly by:
 
-We express our gratitude to everyone that contributed to, reviewed, or improved the document through their comments and questions.
+[%hardbreaks]
+* Author1 <required1@email.com>
+* Author2 <required2@email.com>
