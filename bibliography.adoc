@@ -1,6 +1,4 @@
 [bibliography]
-== References
-. link:https://github.com/riscv/riscv-aia[RISC-V AIA Specification]
-. link:https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf[ACPI Specification 6.4]
+== Bibliography
 
-//bibliography::[]
+bibliography::[]

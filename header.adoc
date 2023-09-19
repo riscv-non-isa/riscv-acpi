@@ -1,30 +1,33 @@
-[[header]]
-:description: RISC-V ACPI Guidance Document
-:revdate: 07/12/2022
-:revnumber: 0.3
-:revremark: This document is in Development state.  Change should be expected.
+= RISC-V Example Specification Document (Zexmpl)
+Authors: Author 1, Author 2
+:docgroup: RISC-V Task Group
+:description: RISC-V Example Specification Document (Zexmpl)
 :company: RISC-V.org
+:revdate: 1/2023
+:revnumber: 1.0
+:revremark: This document is under development. Expect potential changes. Visit http://riscv.org/spec-state for further details.
+:revinfo:
 :url-riscv: http://riscv.org
 :doctype: book
 :preface-title: Preamble
 :colophon:
 :appendix-caption: Appendix
-:title-logo-image: image:docs-resources/images/risc-v_logo.svg[pdfwidth=3.25in,align=center]
+:imagesdir: docs-resources/images
+:title-logo-image: image:risc-v_logo.png[pdfwidth=3.25in,align=center]
 // Settings:
 :experimental:
 :reproducible:
-// needs to be changed? bug discussion started
 //:WaveDromEditorApp: app/wavedrom-editor.app
-:bibtex-file: acpi.bib
+:imagesoutdir: docs-resources/images
+:bibtex-file: example.bib
 :bibtex-order: alphabetical
 :bibtex-style: apa
 :icons: font
 :lang: en
 :listing-caption: Listing
 :sectnums:
-:sectnumlevels: 5
-:toclevels: 5
 :toc: left
+:toclevels: 4
 :source-highlighter: pygments
 ifdef::backend-pdf[]
 :source-highlighter: coderay
@@ -35,22 +38,18 @@ endif::[]
 :footnote:
 :xrefstyle: short
 
-= RISC-V ACPI Guidance Document
-Sunil V L; RISC-V Platform HSC Group
-
-// Preamble
 [WARNING]
 .This document is in the link:http://riscv.org/spec-state[Development state]
 ====
-Assume everything can change. This draft specification will change before being
-accepted as standard, so implementations made to this draft specification will
-likely not conform to the future standard.
+Expect potential changes. This draft specification is likely to evolve before
+it is accepted as a standard. Implementations based on this draft
+may not conform to the future standard.
 ====
 
 [preface]
 == Copyright and license information
-This specification is licensed under the Creative Commons 
-Attribution 4.0 International License (CC-BY 4.0). The full 
+This specification is licensed under the Creative Commons
+Attribution 4.0 International License (CC-BY 4.0). The full
 license text is available at
 https://creativecommons.org/licenses/by/4.0/.
 
@@ -59,8 +58,9 @@ Copyright 2022 by RISC-V International.
 [preface]
 include::contributors.adoc[]
 
-include::revision.adoc[]
-include::riscv-acpi-guidance.adoc[]
-//the index must precede the bibliography
-//include::index.adoc[]
+include::intro.adoc[]
+include::chapter2.adoc[]
+
+// The index must precede the bibliography
+include::index.adoc[]
 include::bibliography.adoc[]
